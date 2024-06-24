@@ -1,0 +1,10 @@
+<resources>
+    <string name="label_title">Title</string>
+    <string name="label_artist">Artist</string>
+
+    <string name="back">Back</string>
+
+    <string name="no_data_available">No data available</string>
+
+    <string name="museum_url">See Rijksmuseum</string>
+</resources>
