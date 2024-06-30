@@ -129,3 +129,8 @@ android {
         compose = true
     }
 }
+
+compose.resources {
+    // generate the Res class only if the current project has an explicit implementation
+    generateResClass = auto
+}

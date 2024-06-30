@@ -17,6 +17,7 @@
 - [Гайд](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-setup.html) для настройки KMP окружения, обязательно к прочтению
 - Набор доступных [библиотек](https://github.com/terrakok/kmp-awesome?tab=readme-ov-file) для KMP разработки
 - [Wizard](https://terrakok.github.io/Compose-Multiplatform-Wizard/) для создания настроенного проекта с подключенными библиотеками на выбор
+- [Multiplatform resources](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-images-resources.html) с описанием qualifiers для ресурсов
 
 ---
 
