@@ -1,5 +1,5 @@
 rootProject.name = "YandexSchool"
-include(":composeApp")
+include(":shared", ":androidApp")
 
 pluginManagement {
     repositories {

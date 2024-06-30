@@ -1,41 +1,32 @@
 import SwiftUI
-import ComposeApp
+import Shared
 
 @main
 struct iOSApp: App {
-
-    @UIApplicationDelegateAdaptor(AppDelegate.self)
-    var appDelegate: AppDelegate
-
-	var body: some Scene {
-		WindowGroup {
-			ContentView()
-		}
-	}
-}
-
-class AppDelegate: NSObject, UIApplicationDelegate {
-
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
+    
+    init() {
         KoinStarterKt.doInitKoin()
-        return true
     }
-}
-
-struct ComposeView: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-        MainKt.MainViewController()
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
     }
-
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 
 struct ContentView: View {
+    @State private var showContent = false
     var body: some View {
-        ComposeView().ignoresSafeArea(.keyboard) // Compose has own keyboard handler
+        let message = CommonInteractorHelper().getMessage()
+        
+        Text(message)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
 }
 
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
+}
