@@ -10,9 +10,15 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.room)
+    id("com.google.devtools.ksp")
 }
 
 kotlin {
+    sourceSets.commonMain {
+        kotlin.srcDir("build/generated/ksp/metadata")
+    }
+
     androidTarget {
         compilations.all {
             compileTaskProvider {
@@ -68,6 +74,10 @@ kotlin {
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.koin)
             implementation(libs.voyager.transitions)
+
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
+            implementation(libs.sqlite)
         }
 
         commonTest.dependencies {
@@ -82,6 +92,7 @@ kotlin {
             implementation(libs.androidx.activityCompose)
             implementation(libs.kotlinx.coroutines.android)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.koin.android)
         }
 
         iosMain.dependencies {
@@ -127,5 +138,19 @@ android {
     buildFeatures {
         //enables a Compose tooling support in the AndroidStudio
         compose = true
+    }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
+dependencies {
+    add("kspCommonMainMetadata", libs.room.compiler)
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.dsl.KotlinCompile<*>>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata" ) {
+        dependsOn("kspCommonMainKotlinMetadata")
     }
 }

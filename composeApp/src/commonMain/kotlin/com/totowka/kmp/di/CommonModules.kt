@@ -1,10 +1,9 @@
 package com.totowka.kmp.di
 
-import com.totowka.kmp.data.InMemoryMuseumStorage
-import com.totowka.kmp.data.KtorMuseumApi
-import com.totowka.kmp.data.MuseumApi
+import com.totowka.kmp.data.datastore.remote.KtorMuseumApi
+import com.totowka.kmp.data.datastore.remote.MuseumApi
 import com.totowka.kmp.data.MuseumRepositoryImpl
-import com.totowka.kmp.data.MuseumStorage
+import com.totowka.kmp.data.datastore.local.roomModule
 import com.totowka.kmp.data.model.PaintingMapper
 import com.totowka.kmp.domain.MuseumInteractor
 import com.totowka.kmp.domain.MuseumRepository
@@ -14,9 +13,10 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.ContentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
-import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
 private fun dataModule() = module {
@@ -27,14 +27,12 @@ private fun dataModule() = module {
     factory<MuseumRepository> {
         MuseumRepositoryImpl(
             museumApi = get(),
-            museumStorage = get(),
+            database = get(),
             paintingMapper = get(),
         )
     }
 
     single<MuseumApi> { KtorMuseumApi(get()) }
-
-    single<MuseumStorage> { InMemoryMuseumStorage() }
 
     single {
         val json = Json {
@@ -65,14 +63,12 @@ private fun commonModules() = listOf(
     domainModule(),
     dataModule(),
     screensModule(),
+    roomModule(),
 )
 
-fun getCommonModules(): List<Module> {
-    return commonModules()
-}
-
-fun initKoin() {
-    startKoin {
+fun initKoin(appDeclaration: KoinAppDeclaration = {}) : KoinApplication {
+    return startKoin {
+        appDeclaration()
         modules(
             commonModules()
         )

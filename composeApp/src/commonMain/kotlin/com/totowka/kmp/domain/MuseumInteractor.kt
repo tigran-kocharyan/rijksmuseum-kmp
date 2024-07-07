@@ -9,4 +9,8 @@ class MuseumInteractor(
     suspend fun getPaintings(): List<PaintingDomain> {
         return museumRepository.getPaintings()
     }
+
+    suspend fun refreshPaintings(): List<PaintingDomain> {
+        return museumRepository.refreshPaintings()
+    }
 }
