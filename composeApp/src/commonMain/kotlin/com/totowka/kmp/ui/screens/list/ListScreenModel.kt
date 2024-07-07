@@ -28,4 +28,16 @@ class ListScreenModel(
             }
         }
     }
+
+    fun refreshPaintings() {
+        screenModelScope.launch {
+            mutableState.value = State.Loading
+            mutableState.value = try {
+                val paintings = museumInteractor.refreshPaintings()
+                State.Data(paintings = paintings)
+            } catch (throwable: Throwable) {
+                State.Error
+            }
+        }
+    }
 }

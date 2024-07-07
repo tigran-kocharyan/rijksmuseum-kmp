@@ -1,9 +1,23 @@
 # Kotlin Multiplatform приложение для Android и iOS
 ### [Школа мобильной разработки | Яндекс](https://yandex.ru/yaintern/schools/mobile)
 
+---
+
+## Что будет на лекции?
+- Как подключить зависимости
+- Работа с ресурсами
+- Поход в сеть за данными
+- Интеграция DI
+- UI на Compose Multiplatform
+- ViewModel от Voyager
+- Локальное сохранение данных
+
+---
+
 ## Технологии
 - [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform) — UI
 - [Ktor](https://github.com/ktorio/ktor) — работа с сетью
+- [Room](https://developer.android.com/kotlin/multiplatform/room) — локальная БД
 - [Voyager](https://github.com/adrielcafe/voyager) — навигация
 - [Koin](https://github.com/InsertKoinIO/koin) — dependency injection
 - [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) — многопоточность
@@ -16,7 +30,9 @@
 ## Полезные ссылки
 - [Гайд](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-setup.html) для настройки KMP окружения, обязательно к прочтению
 - Набор доступных [библиотек](https://github.com/terrakok/kmp-awesome?tab=readme-ov-file) для KMP разработки
-- [Wizard](https://terrakok.github.io/Compose-Multiplatform-Wizard/) для создания настроенного проекта с подключенными библиотеками на выбор
+- [JetBrains Wizard](https://kmp.jetbrains.com/) для создания пустого скелетона
+- [Улучшенный Wizard](https://terrakok.github.io/Compose-Multiplatform-Wizard/) для создания настроенного проекта с подключенными библиотеками на выбор
+- [ШМР Android плейлист](https://www.youtube.com/playlist?list=PLXtiZNKIobF5E1JgDaisqnVJfbZeUFYkm) — набор лекций в рамках ШМР, связанных с Android разработкой
 
 ---
 

@@ -7,4 +7,6 @@
     <string name="no_data_available">No data available</string>
 
     <string name="museum_url">See Rijksmuseum</string>
+
+    <string name="refresh_list">Refresh list</string>
 </resources>

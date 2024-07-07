@@ -17,8 +17,11 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshContainer
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,6 +30,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -52,40 +56,60 @@ import yandexschool.composeapp.generated.resources.no_data_available
 
 data object ListScreen : Screen {
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
 
         val screenModel: ListScreenModel = koinScreenModel()
 
-        LaunchedEffect(currentCompositeKeyHash) {
+        LaunchedEffect(Unit) {
             screenModel.getPaintings()
         }
 
         val museumState by screenModel.state.collectAsState()
 
-        when (val state = museumState) {
-            is ListScreenModel.State.Data -> {
-                Content(state.paintings, navigator)
+        val refreshState = rememberPullToRefreshState()
+        if (refreshState.isRefreshing) {
+            LaunchedEffect(Unit) {
+                screenModel.refreshPaintings()
+                refreshState.endRefresh()
             }
-            is ListScreenModel.State.Error -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(stringResource(Res.string.no_data_available))
+        }
+
+        Box(modifier = Modifier.nestedScroll(refreshState.nestedScrollConnection)) {
+            when (val state = museumState) {
+                is ListScreenModel.State.Data -> {
+                    Content(state.paintings, navigator)
+                }
+                is ListScreenModel.State.Error -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(stringResource(Res.string.no_data_available))
+                    }
+                }
+                else -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(48.dp),
+                        )
+                    }
                 }
             }
-            else -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
+            PullToRefreshContainer(
+                modifier = Modifier.align(Alignment.TopCenter),
+                state = refreshState,
+                indicator = {
                     CircularProgressIndicator(
                         modifier = Modifier.size(48.dp),
                     )
                 }
-            }
+            )
         }
     }
 }
