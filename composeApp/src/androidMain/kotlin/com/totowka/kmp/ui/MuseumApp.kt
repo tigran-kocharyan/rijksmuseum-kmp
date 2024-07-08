@@ -1,7 +1,6 @@
 package com.totowka.kmp.ui
 
 import android.app.Application
-import com.totowka.kmp.di.initKoin
 
 class MuseumApp : Application() {
     companion object {
@@ -11,6 +10,5 @@ class MuseumApp : Application() {
     override fun onCreate() {
         super.onCreate()
         INSTANCE = this
-        initKoin()
     }
 }
