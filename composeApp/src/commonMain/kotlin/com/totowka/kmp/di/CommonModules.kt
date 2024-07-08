@@ -8,7 +8,6 @@ import com.totowka.kmp.data.MuseumStorage
 import com.totowka.kmp.data.model.PaintingMapper
 import com.totowka.kmp.domain.MuseumInteractor
 import com.totowka.kmp.domain.MuseumRepository
-import com.totowka.kmp.ui.screens.list.ListScreenModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.ContentType
@@ -16,7 +15,6 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
-import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module
 
 private fun dataModule() = module {
@@ -57,14 +55,9 @@ private fun domainModule() = module {
     }
 }
 
-private fun screensModule() = module {
-    factoryOf(::ListScreenModel)
-}
-
 private fun commonModules() = listOf(
     domainModule(),
     dataModule(),
-    screensModule(),
 )
 
 fun getCommonModules(): List<Module> {
